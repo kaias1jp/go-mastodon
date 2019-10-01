@@ -264,12 +264,21 @@ func (c *Client) DeleteStatus(ctx context.Context, id ID) error {
 }
 
 // Search search content with query.
-func (c *Client) Search(ctx context.Context, q string, resolve bool) (*Results, error) {
+func (c *Client) Search(ctx context.Context, q string, resolve bool, version string) (*Results, error) {
 	params := url.Values{}
 	params.Set("q", q)
 	params.Set("resolve", fmt.Sprint(resolve))
 	var results Results
-	err := c.doAPI(ctx, http.MethodGet, "/api/v1/search", params, &results, nil)
+	var ver string
+	if version == "" {
+		ver = "v1"
+	} else if version != "v1" && version != "v2" {
+		ver = "v1"
+	} else {
+		ver = version
+	}
+
+	err := c.doAPI(ctx, http.MethodGet, "/api/"+ver+"/search", params, &results, nil)
 	if err != nil {
 		return nil, err
 	}
