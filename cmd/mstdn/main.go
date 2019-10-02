@@ -15,7 +15,7 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-	"github.com/mattn/go-mastodon"
+	"github.com/kaias1jp/go-mastodon"
 	"github.com/mattn/go-tty"
 	"github.com/urfave/cli"
 	"golang.org/x/net/html"
@@ -128,9 +128,9 @@ func getConfig(c *cli.Context) (string, *mastodon.Config, error) {
 		return "", nil, err
 	}
 	config := &mastodon.Config{
-		Server:       "https://mstdn.jp",
-		ClientID:     "1e463436008428a60ed14ff1f7bc0b4d923e14fc4a6827fa99560b0c0222612f",
-		ClientSecret: "72b63de5bc11111a5aa1a7b690672d78ad6a207ce32e16ea26115048ec5d234d",
+		Server:       "https://fedibird.com",
+		ClientID:     "QyT_waWjpnF6WxVo9lAd0hy6ea-zcRKd-UzkUz_PauA",
+		ClientSecret: "MYivCDwDvcVfsE7HBF8CeQM9MEFi4JnvpSe9asZgmlw",
 	}
 	if err == nil {
 		err = json.Unmarshal(b, &config)
