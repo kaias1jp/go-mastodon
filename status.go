@@ -61,6 +61,14 @@ type Card struct {
 	Height       int64  `json:"height"`
 }
 
+type Conversation struct {
+        ID ID             `json:"id"`
+        Account []Account `json:"accounts"`
+        LastStatus Status `json:"last_status"`
+        Unread bool       `json:"unread"`
+}
+
+
 // GetFavourites return the favorite list of the current user.
 func (c *Client) GetFavourites(ctx context.Context, pg *Pagination) ([]*Status, error) {
 	var statuses []*Status
@@ -315,4 +323,16 @@ func (c *Client) GetTimelineDirect(ctx context.Context, pg *Pagination) ([]*Stat
 		return nil, err
 	}
 	return statuses, nil
+}
+
+func (c *Client) GetConversations(ctx context.Context, pg *Pagination) ([]*Conversation, error) {
+        params := url.Values{}
+
+        var conversations []*Conversation
+
+        err := c.doAPI(ctx, http.MethodGet, "/api/v1/conversations", params, &conversations, pg)
+        if err != nil {
+                return nil, err
+        }
+        return conversations, nil
 }
