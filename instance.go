@@ -17,6 +17,7 @@ type Instance struct {
 	Stats          *InstanceStats    `json:"stats,omitempty"`
 	Languages      []string          `json:"languages"`
 	ContactAccount *Account          `json:"contact_account"`
+	MaxTootChars   int64             `json:"max_toot_chars,omitempty"`
 }
 
 // InstanceStats hold information for mastodon instance stats.
