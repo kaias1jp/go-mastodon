@@ -272,25 +272,37 @@ func (c *Client) DeleteStatus(ctx context.Context, id ID) error {
 }
 
 // Search search content with query.
-func (c *Client) Search(ctx context.Context, q string, resolve bool, version string) (*Results, error) {
+func (c *Client) Search(ctx context.Context, q string, resolve bool) (*Results, error) {
 	params := url.Values{}
 	params.Set("q", q)
 	params.Set("resolve", fmt.Sprint(resolve))
 	var results Results
-	var ver string
-	if version == "" {
-		ver = "v1"
-	} else if version != "v1" && version != "v2" {
-		ver = "v1"
-	} else {
-		ver = version
-	}
 
-	err := c.doAPI(ctx, http.MethodGet, "/api/"+ver+"/search", params, &results, nil)
+	err := c.doAPI(ctx, http.MethodGet, "/api/v2/search", params, &results, nil)
 	if err != nil {
 		return nil, err
 	}
 	return &results, nil
+}
+
+func (c *Client) SearchV1(ctx context.Context, q string, resolve bool) (*ResultsV1, error) {
+        params := url.Values{}
+        params.Set("q", q)
+        params.Set("resolve", fmt.Sprint(resolve))
+        var results ResultsV1
+
+        err := c.doAPI(ctx, http.MethodGet, "/api/v1/search", params, &results, nil)
+
+        if err != nil {
+                return nil, err
+        }
+        return &results, nil
+}
+
+type ResultsV1 struct {
+	Accounts []*Account `json:"accounts"`
+	Statuses []*Status  `json:"statuses"`
+	Hashtags []string   `json:"hashtags"`
 }
 
 // UploadMedia upload a media attachment from a file.
@@ -318,6 +330,7 @@ func (c *Client) GetTimelineDirect(ctx context.Context, pg *Pagination) ([]*Stat
 	params := url.Values{}
 
 	var statuses []*Status
+	
 	err := c.doAPI(ctx, http.MethodGet, "/api/v1/timelines/direct", params, &statuses, pg)
 	if err != nil {
 		return nil, err
