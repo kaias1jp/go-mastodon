@@ -318,7 +318,7 @@ type Emoji struct {
 // Results hold information for search result.
 type Results struct {
 	Accounts []*Account `json:"accounts"`
-	Statuses []*Status  `json:"statuses"`
+	Statuses []*Status  `json:"statuses,string"`
 	Hashtags []*Tag     `json:"hashtags"`
 }
 
