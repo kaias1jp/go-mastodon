@@ -202,7 +202,7 @@ func (c *Client) GetTimelineHashtag(ctx context.Context, tag string, isLocal boo
 	}
 
 	var statuses []*Status
-	err := c.doAPI(ctx, http.MethodGet, fmt.Sprintf("/api/v1/timelines/tag/%s", url.PathEscape(tag)), params, &statuses, pg)
+	err := c.doAPI(ctx, http.MethodGet, fmt.Sprintf("/api/v1/timelines/tag/%s", tag), params, &statuses, pg)
 	if err != nil {
 		return nil, err
 	}
