@@ -1,6 +1,6 @@
 module github.com/kaias1jp/go-mastodon
 
-go 1.12
+go 1.18.1
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
